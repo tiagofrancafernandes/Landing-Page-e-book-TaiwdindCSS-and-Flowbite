@@ -2,14 +2,60 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png">
+    <link rel="mask-icon" href="./img/safari-pinned-tab.svg" color="#0ed3cf">
+    <meta name="msapplication-TileColor" content="#0ed3cf">
+    <meta name="theme-color" content="#0ed3cf">
+
+    <meta property="og:image" content="https://tailwindcomponents.com/og-tailwindcomponents.png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="640" />
+    <meta property="og:image:type" content="image/png" />
+
+    <meta property="og:url" content="https://tailwindcomponents.com" />
+    <meta property="og:title" content="Tailwind CSS Components - 600+ Free Examples and Templates" />
+    <meta property="og:description" content="A free repository of open source Tailwind CSS components and templates to bootstrap your new apps, projects or landing sites!" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@TwComponents" />
+    <meta name="twitter:title" content="Tailwind CSS Components - 600+ Free Examples and Templates" />
+    <meta name="twitter:description" content="A free repository of open source Tailwind CSS components and templates to bootstrap your new apps, projects or landing sites!" />
+    <meta name="twitter:image" content="https://tailwindcomponents.com/og-tailwindcomponents.png" />
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.0.0/flowbite.min.css" rel="stylesheet" />
     <title>Lang page e-book</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body>
+<body
+    x-data="{
+        jumbotronMedia: null,
+        get invertionOfMediaText() {
+            let text = (this.jumbotronMedia === 'image') ? 'video' : 'image';
+
+            return `Try as ${text}`;
+        },
+        invertionOfMedia() {
+            this.jumbotronMedia = (this.jumbotronMedia === 'image') ? 'video' : 'image';
+        }
+    }"
+    x-init="
+        $watch('jumbotronMedia', value => {
+            if (!(['video', 'image'].includes(value))) {
+                return;
+            }
+
+            window.localStorage.setItem('jumbotronMedia', value);
+        })
+    "
+>
     <header class="bg-gray-800 text-white py-4">
         <nav class="container mx-auto flex justify-between">
             <a href="/" class="text-xl font-bold">Lang page e-book</a>
@@ -42,14 +88,35 @@
                         class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                         Saiba mais
                     </a>
+                    <button type="button"
+                        class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                        x-text="invertionOfMediaText"
+                        x-on:click="invertionOfMedia"
+                    >
+                    </button>
                 </div>
             </div>
-            <div>
+            <div
+                class="jumbotronMedia-container"
+            >
                 <!-- Com video do youtube -->
-                <!-- <iframe class="mx-auto w-full lg:max-w-xl h-64 rounded-lg sm:h-96 shadow-xl" src="https://www.youtube.com/embed/KaLxCiilHns" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                <iframe
+                    class="mx-auto w-full lg:max-w-xl h-64 rounded-lg sm:h-96 shadow-xl"
+                    src="https://www.youtube.com/embed/KaLxCiilHns"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    x-show="jumbotronMedia === 'video'"
+                ></iframe>
 
                 <!-- Com imagem -->
-                <img src="https://via.placeholder.com/1920x1024.png?text=1920x1024" alt="Imagem do livro" class="w-full">
+                <img
+                    src="https://via.placeholder.com/1920x1024.png?text=1920x1024"
+                    alt="Imagem do livro"
+                    class="mx-auto w-full lg:max-w-xl h-64 rounded-lg sm:h-96 shadow-xl"
+                    x-show="!jumbotronMedia || (jumbotronMedia === 'image')"
+                >
             </div>
         </div>
     </section>
@@ -89,7 +156,6 @@
                 </div>
             </form>
         </div>
-        <div class="w-full h-full absolute top-0 left-0 z-0"></div>
     </section>
 
     <section class="py-16 bg-gray-50 dark:bg-gray-900">
